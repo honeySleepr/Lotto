@@ -44,16 +44,16 @@ public class InputValidator {
         return number;
     }
 
-    int validateManualLottoCount(int userMoney, String input) throws IllegalArgumentException {
+    int validateManualLottoCount(int userMoney, String input) throws LottoIllegalInputException {
         int count = validatePositiveInteger(input);
         int purchasableCount = userMoney / Lotto.PRICE;
         if (count > purchasableCount) {
-            throw new IllegalArgumentException("구매한 로또 개수 내에서 입력해 주세요.");
+            throw new LottoIllegalInputException("구매한 로또 개수 내에서 입력해 주세요.");
         }
         return count;
     }
 
-    public List<Integer> validateWinningNumber(String input) throws LottoIllegalInputException {
+    public List<Integer> validateLottoNumbers(String input) throws LottoIllegalInputException {
         String[] split = input.split(",");
         Set<Integer> numberSet = Arrays.stream(split)
             .map(String::trim)

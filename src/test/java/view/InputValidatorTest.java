@@ -10,6 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import exception.LottoIllegalInputException;
+
 class InputValidatorTest {
 
     InputValidator iv = InputValidator.getInstance();
@@ -60,7 +62,7 @@ class InputValidatorTest {
     @ValueSource(strings = {"1, 2, 3, 4, 5", "1, 2, 3, 4, 5, 6, 7"})
     @DisplayName("입력 값이 6개가 아니면 \"중복 없는 6개의 번호를 입력해주세요.\"라는 메세지를 담은 LottoIllegalInputException을 던진다.")
     void validateWinningNumber_InvalidSize(String input) {
-        assertThatThrownBy(() -> iv.validateWinningNumber(input))
+        assertThatThrownBy(() -> iv.validateLottoNumbers(input))
             .isInstanceOf(LottoIllegalInputException.class)
             .hasMessage("중복 없는 6개의 번호를 입력해주세요.");
     }
@@ -70,7 +72,7 @@ class InputValidatorTest {
     @DisplayName("입력 값 중에 중복 값이 있으면 \"중복 없는 6개의 번호를 입력해주세요.\"라는 메세지를 담은 LottoIllegalInputException을"
         + " 던진다.")
     void validateWinningNumber_DuplicateInput(String input) {
-        assertThatThrownBy(() -> iv.validateWinningNumber(input))
+        assertThatThrownBy(() -> iv.validateLottoNumbers(input))
             .isInstanceOf(LottoIllegalInputException.class)
             .hasMessage("중복 없는 6개의 번호를 입력해주세요.");
     }
@@ -78,7 +80,7 @@ class InputValidatorTest {
     @Test
     @DisplayName("중복되지 않는 로또 범위 내의 6개의 정수로 이루어진 스트링을 입력하면, List<Integer>를 반환한다.")
     void validateWinningNumber() {
-        assertThat(iv.validateWinningNumber("1,5,10,40,42,43"))
+        assertThat(iv.validateLottoNumbers("1,5,10,40,42,43"))
             .containsOnly(1, 5, 10, 40, 42, 43);
     }
 
@@ -120,7 +122,7 @@ class InputValidatorTest {
         + "던진다.")
     void validateManualLottoCount_OutOfRange() {
         assertThatThrownBy(() -> iv.validateManualLottoCount(14000, "15"))
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(LottoIllegalInputException.class)
             .hasMessage("구매한 로또 개수 내에서 입력해 주세요.");
     }
 
