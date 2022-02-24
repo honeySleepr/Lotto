@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import domain.Lotto;
 import exception.LottoIllegalInputException;
+import domain.Lotto.Lotto;
 
 public class InputValidator {
 
